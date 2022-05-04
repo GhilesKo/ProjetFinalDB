@@ -6,23 +6,69 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppProjetSessionDB.Models;
+using AppProjetSessionDB.Models.DTO;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 
 namespace AppProjetSessionDB.Controllers
 {
     public class RendezVousController : Controller
     {
         private readonly H22_4D5_Projet_sessionContext _context;
-
-        public RendezVousController(H22_4D5_Projet_sessionContext context)
+        private IConfiguration _configuration;
+        private SqlConnection connectionBD;
+        public RendezVousController(H22_4D5_Projet_sessionContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET: RendezVous
         public async Task<IActionResult> Index()
         {
-            var h22_4D5_Projet_sessionContext = _context.RendezVous.Include(r => r.Propriete);
-            return View(await h22_4D5_Projet_sessionContext.ToListAsync());
+
+            var Lesphotographes = _context.Photographes.ToList();
+            var RendezVousDTO = new RendezVousDTO
+            {
+                photographes = Lesphotographes,
+                listeRendezVous = new List<RendezVou>()
+
+
+            };
+            return View(RendezVousDTO);
+
+
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(RendezVousDTO rdv)
+        {
+
+
+         
+            connectionBD = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString"));
+            connectionBD.Open();
+
+            SqlCommand sqlCommand = connectionBD.CreateCommand();
+            sqlCommand.CommandText =$"EXECUTE usp_getRDVphotographe '{rdv.dateDebut}','{rdv.dateFin}',{rdv.PhotographeId}";
+            SqlDataReader resultat= sqlCommand.ExecuteReader();
+
+            while ( resultat.Read())
+            {
+                rdv.listeRendezVous.Add(new RendezVou(int.Parse(resultat["rendezVousID"].ToString()), DateTime.Parse(resultat["dateRendezVous"].ToString()), resultat["commentaire"].ToString(), int.Parse(resultat["proprieteID"].ToString()), TimeSpan.Parse(resultat["heureDebut"].ToString()), resultat["justification"].ToString(), resultat["statutPhoto"].ToString(), resultat["commentairePhoto"].ToString()));
+            }
+
+            connectionBD.Close()
+            
+            return View(rdv);
+
+           
+
+
+
+
         }
 
         // GET: RendezVous/Details/5

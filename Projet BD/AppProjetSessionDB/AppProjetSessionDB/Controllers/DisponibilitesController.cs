@@ -19,7 +19,7 @@ namespace AppProjetSessionDB.Controllers
         }
 
         // GET: Disponibilites
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             var h22_4D5_Projet_sessionContext = _context.Disponibilites.Include(d => d.Photographe).Include(d => d.RendezVous);
             return View(await h22_4D5_Projet_sessionContext.ToListAsync());

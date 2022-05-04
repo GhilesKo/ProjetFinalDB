@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AppProjetSessionDB.Models.RendezVou>
+﻿@model AppProjetSessionDB.Models.DTO.RendezVousDTO
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +9,85 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+
+<form method="post" asp-action="Index" >
+    <div class="d-flex container">
+        <input asp-for="dateDebut" class="form-control w-25" type="date" id="start" name="trip-start"
+               value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+
+        <input asp-for="dateFin" class="form-control  w-25 mx-4" type="date" id="start" name="trip-start"
+               value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+
+        <select asp-for="PhotographeId" class="form-control  w-25">
+
+            <option>Sélectionnez un photographe</option>
+
+            @foreach (var p in Model.photographes)
+            {
+                <option value="@p.PhotographeId">@p.Nom</option>
+
+            }
+
+
+        </select>
+
+        <button type="submit" class="btn btn-info">Rechercher</button>
+    </div>
+</form>
+
+
+<table>
+
+    <thead>
+
+        <tr>
+            @foreach (var r in Model.listeRendezVous)
+            {
+                <th>
+                    @Html.DisplayName(nameof(r.RendezVousId))
+
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(r.DateRendezVous))
+
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(r.Commentaire))
+
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(r.ProprieteId))
+
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(r.HeureDebut))
+
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(r.Justification))
+
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(r.StatutPhoto))
+
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(r.CommentairePhotos))
+
+                </th>
+
+            }
+
+        </tr>
+
+
+    </thead>
+
+
+</table>
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -68,4 +146,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@
