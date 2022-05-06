@@ -15,9 +15,9 @@ namespace AppProjetSessionDB.Models
             Photos = new HashSet<Photo>();
         }
 
-        public RendezVou(int rendezVousId, DateTime dateRendezVous, string commentaire, int proprieteId, TimeSpan heureDebut, string justification, string statutPhoto, string commentairePhotos)
+        public RendezVou(int rendezVousID, DateTime dateRendezVous, string commentaire, int proprieteId, TimeSpan heureDebut, string justification, string statutPhoto, string commentairePhotos)
         {
-            RendezVousId = rendezVousId;
+            RendezVousId = rendezVousID;
             DateRendezVous = dateRendezVous;
             Commentaire = commentaire;
             ProprieteId = proprieteId;

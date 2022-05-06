@@ -32,9 +32,12 @@ namespace AppProjetSessionDB.Controllers
             {
                 photographes = Lesphotographes,
                 listeRendezVous = new List<RendezVou>()
-
+                
 
             };
+
+
+
             return View(RendezVousDTO);
 
 
@@ -55,12 +58,22 @@ namespace AppProjetSessionDB.Controllers
             sqlCommand.CommandText =$"EXECUTE usp_getRDVphotographe '{rdv.dateDebut}','{rdv.dateFin}',{rdv.PhotographeId}";
             SqlDataReader resultat= sqlCommand.ExecuteReader();
 
+
             while ( resultat.Read())
             {
-                rdv.listeRendezVous.Add(new RendezVou(int.Parse(resultat["rendezVousID"].ToString()), DateTime.Parse(resultat["dateRendezVous"].ToString()), resultat["commentaire"].ToString(), int.Parse(resultat["proprieteID"].ToString()), TimeSpan.Parse(resultat["heureDebut"].ToString()), resultat["justification"].ToString(), resultat["statutPhoto"].ToString(), resultat["commentairePhoto"].ToString()));
+                rdv.listeRendezVous.Add(new RendezVou(int.Parse(resultat["rendezVousID"].ToString()),
+                    DateTime.Parse(resultat["dateRendezVous"].ToString()),
+                    resultat["commentaire"].ToString(), 
+                    int.Parse(resultat["proprieteID"].ToString()),
+                    TimeSpan.Parse(resultat["heureDebut"].ToString()), 
+                    resultat["justification"].ToString(),
+                    resultat["statutPhoto"].ToString(), 
+                    resultat["commentairePhotos"].ToString()));
             }
+            resultat.Close();
+            connectionBD.Close();
 
-            connectionBD.Close()
+           
             
             return View(rdv);
 

@@ -12,23 +12,47 @@
 
 <form method="post" asp-action="Index" >
     <div class="d-flex container">
-        <input asp-for="dateDebut" class="form-control w-25" type="date" id="start" name="trip-start"
-               value="2018-07-22"
-               min="2018-01-01" max="2018-12-31">
-
-        <input asp-for="dateFin" class="form-control  w-25 mx-4" type="date" id="start" name="trip-start"
-               value="2018-07-22"
-               min="2018-01-01" max="2018-12-31">
+        <input asp-for="dateDebut" class="form-control w-25" type="date"  name="dateDebut"
+               value="2021-05-22"
+           >
+        
+        <input asp-for="dateFin" class="form-control  w-25 mx-4" type="date" name="dateFin"
+               value="2021-05-28"
+             >
 
         <select asp-for="PhotographeId" class="form-control  w-25">
+
 
             <option>Sélectionnez un photographe</option>
 
             @foreach (var p in Model.photographes)
             {
+
+
                 <option value="@p.PhotographeId">@p.Nom</option>
 
             }
+
+            @Html.HiddenFor(x=>x.listeRendezVous)
+
+            @for (int i = 0; i < Model.photographes.Count; i++)
+            {
+                @Html.HiddenFor(x => x.photographes[i].Nom);
+
+                @Html.HiddenFor(x => x.photographes[i].PhotographeId);
+
+
+            }
+
+
+
+
+
+
+
+
+
+
 
 
         </select>
@@ -38,8 +62,12 @@
 </form>
 
 
-<table>
+<table class="table">
 
+    @if (Model.listeRendezVous!=null)
+    {
+
+    
     <thead>
 
         <tr>
@@ -85,6 +113,58 @@
 
     </thead>
 
+    <tbody>
+        @foreach (var r in Model.listeRendezVous)
+        {
+        <tr>
+            
+            <td>
+                @r.RendezVousId.ToString()
+            </td>
+            <td>
+               @r.DateRendezVous.ToString()
+            </td>
+            <td>
+                @if (@r.Commentaire == null || @r.Commentaire == "")
+                {
+                    <p>NULL</p>
+                }
+                @r.Commentaire
+            </td>
+            <td>
+                @r.ProprieteId.ToString()
+            </td>
+            <td>
+                @r.HeureDebut.ToString()
+            </td>
+            <td>
+                @if (@r.Justification == null || @r.Justification == "")
+                {
+                    <p>NULL</p>
+                }
+                @r.Justification
+            </td>
+            <td>
+                @if (@r.StatutPhoto == null || @r.StatutPhoto == "")
+                {
+                    <p>NULL</p>
+                }
+                @r.StatutPhoto
+            </td>
+            <td>
+                @if (@r.CommentairePhotos == null || @r.CommentairePhotos == "")
+                {
+                    <p>NULL</p>
+                }
+                @r.CommentairePhotos
+            </td>
+        </tr>
+
+        }
+
+    </tbody>
+    }
+    
 
 </table>
 @*<table class="table">
