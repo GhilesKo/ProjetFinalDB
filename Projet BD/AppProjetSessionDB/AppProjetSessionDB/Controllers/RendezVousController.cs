@@ -54,10 +54,12 @@ namespace AppProjetSessionDB.Controllers
             connectionBD = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString"));
             connectionBD.Open();
 
+            var debut = rdv.dateDebut.ToString("yyyy-MM-dd");
+            var fin = rdv.dateFin.ToString("yyyy-MM-dd");
             SqlCommand sqlCommand = connectionBD.CreateCommand();
-            sqlCommand.CommandText =$"EXECUTE usp_getRDVphotographe '{rdv.dateDebut}','{rdv.dateFin}',{rdv.PhotographeId}";
+            sqlCommand.CommandText =$"EXECUTE usp_getRDVphotographe '{debut}','{fin}',{rdv.PhotographeId}";
             SqlDataReader resultat= sqlCommand.ExecuteReader();
-
+                
 
             while ( resultat.Read())
             {

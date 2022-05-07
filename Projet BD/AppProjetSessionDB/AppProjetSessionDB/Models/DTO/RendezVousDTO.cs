@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,9 +11,11 @@ namespace AppProjetSessionDB.Models.DTO
     {
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:s}")]
         public DateTime dateDebut { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:s}")]
         public DateTime dateFin { get; set; }
 
   
