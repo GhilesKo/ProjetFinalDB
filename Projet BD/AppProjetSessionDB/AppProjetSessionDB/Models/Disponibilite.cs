@@ -16,5 +16,16 @@ namespace AppProjetSessionDB.Models
 
         public virtual Photographe Photographe { get; set; }
         public virtual RendezVou RendezVous { get; set; }
+
+
+        public Disponibilite(int disponibiliteId, DateTime dateDisponibilite, int photographeId, TimeSpan heureDebut, int? rendezVousId, string statut)
+        {
+            DisponibiliteId = disponibiliteId;
+            DateDisponibilite = dateDisponibilite;
+            PhotographeId = photographeId;
+            HeureDebut = heureDebut;
+            RendezVousId = rendezVousId;
+            Statut = statut;
+        }
     }
 }

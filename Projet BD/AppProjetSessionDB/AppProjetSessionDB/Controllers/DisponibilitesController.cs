@@ -6,23 +6,70 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppProjetSessionDB.Models;
+using AppProjetSessionDB.Models.DTO;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 
 namespace AppProjetSessionDB.Controllers
 {
     public class DisponibilitesController : Controller
     {
         private readonly H22_4D5_Projet_sessionContext _context;
+        private IConfiguration _configuration;
+        private SqlConnection connectionBD;
 
-        public DisponibilitesController(H22_4D5_Projet_sessionContext context)
+        public DisponibilitesController(H22_4D5_Projet_sessionContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET: Disponibilites
         public async Task<IActionResult> Index(int id)
         {
-            var h22_4D5_Projet_sessionContext = _context.Disponibilites.Include(d => d.Photographe).Include(d => d.RendezVous);
-            return View(await h22_4D5_Projet_sessionContext.ToListAsync());
+
+
+            var photographes = _context.Photographes.ToList();
+
+            DisponibilitesDTO disponibilitesDTO = new DisponibilitesDTO
+            {
+                disponibilites = new List<Disponibilite>(),
+                photographes = photographes
+
+
+            };
+            return View(disponibilitesDTO);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(DisponibilitesDTO disponibilitesDTO)
+        {
+            var photographeId = disponibilitesDTO.PhotographeId;
+            var photographe = await _context.Photographes.FirstOrDefaultAsync(x => x.PhotographeId == photographeId);
+            var debut = disponibilitesDTO.dateDebut.ToString("yyyy-MM-dd");
+            var fin = disponibilitesDTO.dateFin.ToString("yyyy-MM-dd");
+
+            connectionBD = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString"));
+            connectionBD.Open();
+            SqlCommand sqlCommand = connectionBD.CreateCommand();
+            sqlCommand.CommandText = $"EXECUTE usp_getDispoPhotographe '{debut}','{fin}',{disponibilitesDTO.PhotographeId}";
+            SqlDataReader resultat = sqlCommand.ExecuteReader();
+
+            while (resultat.Read())
+            {
+
+                Disponibilite disponibilite = new Disponibilite
+                    (int.Parse(resultat["disponibiliteID"].ToString()), 
+                    DateTime.Parse(resultat["dateDisponibilite"].ToString()), 
+                    int.Parse(resultat["photographeID"].ToString()), 
+                    TimeSpan.Parse(resultat["heureDebut"].ToString()),
+                    int.Parse(resultat["rendezVousID"].ToString()), 
+                    resultat["statut"].ToString());
+
+                disponibilitesDTO.disponibilites.Add(disponibilite);
+            }
+
+            return View(disponibilitesDTO);
         }
 
         // GET: Disponibilites/Details/5
