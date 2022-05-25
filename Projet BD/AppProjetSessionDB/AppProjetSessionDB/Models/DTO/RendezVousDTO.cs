@@ -21,6 +21,7 @@ namespace AppProjetSessionDB.Models.DTO
   
         public int PhotographeId { get; set; }
 
+        public int RendezVousId { get; set; }
         public List<Photographe> photographes { get; set; }
 
         public List<RendezVou> listeRendezVous { get; set; }

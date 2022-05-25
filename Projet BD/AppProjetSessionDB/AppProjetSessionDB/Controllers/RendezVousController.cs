@@ -63,7 +63,8 @@ namespace AppProjetSessionDB.Controllers
 
             while ( resultat.Read())
             {
-                rdv.listeRendezVous.Add(new RendezVou(int.Parse(resultat["rendezVousID"].ToString()),
+                rdv.listeRendezVous.Add(new RendezVou
+                    (int.Parse(resultat["rendezVousID"].ToString()),
                     DateTime.Parse(resultat["dateRendezVous"].ToString()),
                     resultat["commentaire"].ToString(), 
                     int.Parse(resultat["proprieteID"].ToString()),
@@ -83,6 +84,41 @@ namespace AppProjetSessionDB.Controllers
 
 
 
+
+        }
+       
+        [HttpPost]
+        public async Task<IActionResult> ConfirmerRDV(RendezVousDTO rdv, int rdvID) {
+
+            var disponibilité = await _context.Disponibilites.FirstOrDefaultAsync(d=>d.RendezVousId== rdvID);
+            if (disponibilité == null)
+            {
+                return NoContent();
+            }
+            disponibilité.Statut = "Occupé";
+           await _context.SaveChangesAsync();
+
+            return NoContent();
+        
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RefuserRDV(int rdvID)
+        {
+
+            var disponibilité = await _context.Disponibilites.FirstOrDefaultAsync(d => d.RendezVousId == rdvID);
+            if (disponibilité == null)
+            {
+                return NoContent();
+            }
+        
+
+            var rdv = await _context.RendezVous.FirstOrDefaultAsync(r => r.RendezVousId == rdvID);
+            _context.RendezVous.Remove(rdv);
+            disponibilité.Statut = "Libre";
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
 
         }
 
@@ -106,9 +142,10 @@ namespace AppProjetSessionDB.Controllers
         }
 
         // GET: RendezVous/Create
-        public IActionResult Create()
+        public IActionResult Create(int? dispoId)
         {
-            ViewData["ProprieteId"] = new SelectList(_context.Proprietes, "ProprieteId", "Adresse");
+            ViewData["ProprieteId"] = new SelectList(_context.Proprietes, "ProprieteId", "NomProprio");
+            ViewData["dispoId"] = dispoId;  
             return View();
         }
 
@@ -117,10 +154,13 @@ namespace AppProjetSessionDB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RendezVousId,DateRendezVous,Commentaire,ProprieteId,HeureDebut,Justification,StatutPhoto,CommentairePhotos")] RendezVou rendezVou)
+        public async Task<IActionResult> Create([Bind("RendezVousId,Commentaire,ProprieteId,Justification,StatutPhoto,CommentairePhotos")] RendezVou rendezVou, int dispoId)
         {
             if (ModelState.IsValid)
             {
+                var dispo = await _context.Disponibilites.FirstOrDefaultAsync(d => d.DisponibiliteId == dispoId);
+                rendezVou.DateRendezVous = dispo.DateDisponibilite;
+                rendezVou.HeureDebut = dispo.HeureDebut;
                 _context.Add(rendezVou);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

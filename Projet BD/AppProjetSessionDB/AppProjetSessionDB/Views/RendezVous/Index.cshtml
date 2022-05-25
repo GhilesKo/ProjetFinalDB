@@ -70,42 +70,48 @@
     <thead>
 
         <tr>
-            @foreach (var r in Model.listeRendezVous)
-            {
-                <th>
-                    @Html.DisplayName(nameof(r.RendezVousId))
 
+            <th>
+
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].RendezVousId)
+            </th>
+
+            <th>
+
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].DateRendezVous)
+            </th>
+
+            <th>
+
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].Commentaire)
+            </th>
+
+            <th>
+
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].ProprieteId)
+            </th>
+
+            <th>
+
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].HeureDebut)
+            </th>
+
+            <th>
+
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].Justification)
+            </th>
+
+            <th>
+
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].StatutPhoto)
                 </th>
-                <th>
-                    @Html.DisplayName(nameof(r.DateRendezVous))
+            <th>
 
-                </th>
-                <th>
-                    @Html.DisplayName(nameof(r.Commentaire))
+                @Html.DisplayNameFor(m => m.listeRendezVous[0].CommentairePhotos)
+            </th>
 
-                </th>
-                <th>
-                    @Html.DisplayName(nameof(r.ProprieteId))
 
-                </th>
-                <th>
-                    @Html.DisplayName(nameof(r.HeureDebut))
 
-                </th>
-                <th>
-                    @Html.DisplayName(nameof(r.Justification))
-
-                </th>
-                <th>
-                    @Html.DisplayName(nameof(r.StatutPhoto))
-
-                </th>
-                <th>
-                    @Html.DisplayName(nameof(r.CommentairePhotos))
-
-                </th>
-
-            }
 
         </tr>
 
@@ -115,13 +121,20 @@
     <tbody>
         @foreach (var r in Model.listeRendezVous)
         {
+         
         <tr>
-            
+
             <td>
+
                 @r.RendezVousId.ToString()
+         
+
+
+
+
             </td>
             <td>
-               @r.DateRendezVous.ToString()
+                @r.DateRendezVous.ToString()
             </td>
             <td>
                 @if (@r.Commentaire == null || @r.Commentaire == "")
@@ -157,9 +170,23 @@
                 }
                 @r.CommentairePhotos
             </td>
+
+          
+            <td>
+                @using (Html.BeginForm("ConfirmerRDV", "RendezVous", new { rdvID = r.RendezVousId }, FormMethod.Post))
+                {
+
+                    <a asp-action="Create">Prendre </a>
+                    <button type="submit">Confirmer </button>}
+                @using (Html.BeginForm("RefuserRDV", "RendezVous", new { rdvID = r.RendezVousId }, FormMethod.Post))
+                {
+                    <button class="mt-2" type="submit">Refuser </button>}
+            </td>
+
         </tr>
 
         }
+
 
     </tbody>
     }

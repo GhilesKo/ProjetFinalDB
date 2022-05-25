@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Rendez-Vous</h1>
+<h1>Disponibilités</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -59,6 +59,85 @@
     </div>
 </form>
 
+@if (Model.disponibilites != null && Model.disponibilites.Count>0)
+{
+
+
+<table class="table m-2">
+    <thead>
+
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(m=>m.disponibilites[0].DisponibiliteId)
+              
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.disponibilites[0].DateDisponibilite)
+
+
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.disponibilites[0].PhotographeId)
+
+
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.disponibilites[0].HeureDebut)
+
+
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.disponibilites[0].RendezVousId)
+R
+
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.disponibilites[0].Statut)
+
+
+
+            </th>
+
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.disponibilites)
+        {
+        <tr>
+            <td>
+                @d.DisponibiliteId
+            </td>
+            <td>
+                @d.DateDisponibilite
+            </td>
+            <td>
+                @d.PhotographeId
+            </td>
+            <td>
+                @d.HeureDebut
+            </td>
+            <td>
+                @d.RendezVousId
+            </td>
+            <td>
+                @d.Statut
+            </td>
+            @if (d.Statut == "Libre")
+            {<td>
+                <a asp-action="Create" asp-controller="RendezVous" asp-route-dispoId="@d.DisponibiliteId">Prendre un rendez-vous</a>
+            </td>}
+        </tr>
+        }
+    </tbody>
+
+</table>
+}
 
 @*<table class="table">
     <thead>

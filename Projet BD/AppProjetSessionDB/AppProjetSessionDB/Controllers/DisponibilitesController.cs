@@ -9,6 +9,7 @@ using AppProjetSessionDB.Models;
 using AppProjetSessionDB.Models.DTO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
+using System.Diagnostics;
 
 namespace AppProjetSessionDB.Controllers
 {
@@ -36,7 +37,6 @@ namespace AppProjetSessionDB.Controllers
                 disponibilites = new List<Disponibilite>(),
                 photographes = photographes
 
-
             };
             return View(disponibilitesDTO);
         }
@@ -48,7 +48,7 @@ namespace AppProjetSessionDB.Controllers
             var photographe = await _context.Photographes.FirstOrDefaultAsync(x => x.PhotographeId == photographeId);
             var debut = disponibilitesDTO.dateDebut.ToString("yyyy-MM-dd");
             var fin = disponibilitesDTO.dateFin.ToString("yyyy-MM-dd");
-
+         
             connectionBD = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString"));
             connectionBD.Open();
             SqlCommand sqlCommand = connectionBD.CreateCommand();
@@ -58,16 +58,23 @@ namespace AppProjetSessionDB.Controllers
             while (resultat.Read())
             {
 
-                Disponibilite disponibilite = new Disponibilite
-                    (int.Parse(resultat["disponibiliteID"].ToString()), 
-                    DateTime.Parse(resultat["dateDisponibilite"].ToString()), 
-                    int.Parse(resultat["photographeID"].ToString()), 
-                    TimeSpan.Parse(resultat["heureDebut"].ToString()),
-                    int.Parse(resultat["rendezVousID"].ToString()), 
-                    resultat["statut"].ToString());
 
-                disponibilitesDTO.disponibilites.Add(disponibilite);
+
+
+                disponibilitesDTO.disponibilites.Add(new Disponibilite
+                  (
+                  int.Parse(resultat["disponibiliteID"].ToString()),
+                  DateTime.Parse(resultat["dateDisponibilite"].ToString()),
+                  int.Parse(resultat["photographeID"].ToString()),
+                  TimeSpan.Parse(resultat["heureDebut"].ToString()),
+                  int.TryParse(resultat["rendezVousID"].ToString(), out int id) == true ? id : null,
+                  resultat["statut"].ToString()
+                  ));
+
+
             }
+            resultat.Close();
+            connectionBD.Close();
 
             return View(disponibilitesDTO);
         }
@@ -105,10 +112,19 @@ namespace AppProjetSessionDB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DisponibiliteId,DateDisponibilite,PhotographeId,HeureDebut,RendezVousId,Statut")] Disponibilite disponibilite)
+        public async Task<IActionResult> Create( Disponibilite disponibilite)
         {
             if (ModelState.IsValid)
             {
+                var dispoExiste = await _context.Disponibilites.FirstOrDefaultAsync(d => d.DateDisponibilite == disponibilite.DateDisponibilite && d.HeureDebut == disponibilite.HeureDebut && d.PhotographeId == disponibilite.PhotographeId);
+                if (dispoExiste != null)
+                {
+                   
+                    ViewData["PhotographeId"] = new SelectList(_context.Photographes, "PhotographeId", "Nom", disponibilite.PhotographeId);
+                    ViewData["RendezVousId"] = new SelectList(_context.RendezVous, "RendezVousId", "RendezVousId", disponibilite.RendezVousId);
+                    return View(disponibilite);
+                }
+                disponibilite.Statut = "Libre";
                 _context.Add(disponibilite);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

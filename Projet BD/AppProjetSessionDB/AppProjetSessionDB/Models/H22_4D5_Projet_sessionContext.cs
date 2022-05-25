@@ -90,10 +90,13 @@ namespace AppProjetSessionDB.Models
                 entity.HasOne(d => d.RendezVous)
                     .WithMany(p => p.Photos)
                     .HasForeignKey(d => d.RendezVousId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.ClientCascade)
                     .HasConstraintName("FK_Photo_rendezVousID");
-            });
 
+                
+                
+            });
+     
             modelBuilder.Entity<Photographe>(entity =>
             {
                 entity.ToTable("Photographes", "Utilisateurs");
