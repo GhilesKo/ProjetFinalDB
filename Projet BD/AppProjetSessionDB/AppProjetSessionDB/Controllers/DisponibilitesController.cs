@@ -34,7 +34,7 @@ namespace AppProjetSessionDB.Controllers
 
             DisponibilitesDTO disponibilitesDTO = new DisponibilitesDTO
             {
-                disponibilites = new List<Disponibilite>(),
+                disponibilites = _context.Disponibilites.ToList(),
                 photographes = photographes
 
             };

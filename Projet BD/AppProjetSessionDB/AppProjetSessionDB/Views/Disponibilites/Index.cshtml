@@ -129,9 +129,25 @@ R
                 @d.Statut
             </td>
             @if (d.Statut == "Libre")
-            {<td>
-                <a asp-action="Create" asp-controller="RendezVous" asp-route-dispoId="@d.DisponibiliteId">Prendre un rendez-vous</a>
-            </td>}
+            {
+                <td>
+                    <a asp-action="Create" asp-controller="RendezVous" asp-route-dispoId="@d.DisponibiliteId">Prendre un rendez-vous</a>
+                </td>
+            }
+            @if (d.Statut == "Occupé")
+            {
+                <td>
+                    <a asp-action="Create" asp-controller="Photos" asp-route-rdvId="@d.RendezVousId">Prendre une photo </a>
+                </td>
+            }
+
+            @if (d.Statut == "Complété")
+            {
+                <td>
+                    <h5>Complété</h5>
+                </td>
+            }
+
         </tr>
         }
     </tbody>

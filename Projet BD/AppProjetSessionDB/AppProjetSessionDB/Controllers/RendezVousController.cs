@@ -31,7 +31,7 @@ namespace AppProjetSessionDB.Controllers
             var RendezVousDTO = new RendezVousDTO
             {
                 photographes = Lesphotographes,
-                listeRendezVous = new List<RendezVou>()
+                listeRendezVous = _context.RendezVous.ToList()
                 
 
             };

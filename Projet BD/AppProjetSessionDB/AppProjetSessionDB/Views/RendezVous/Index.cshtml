@@ -10,16 +10,18 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<form method="post" asp-action="Index" >
+
+<a asp-action="Create">Toute les rendez-vous </a>
+
+
+<form method="post" asp-action="Index">
     <div class="d-flex container">
-        <input asp-for="dateDebut" class="form-control w-25"  type="date"  name="dateDebut"
-               value="2021-05-22"
-           >
+        <input asp-for="dateDebut" class="form-control w-25" type="date" name="dateDebut"
+               value="2021-05-22">
 
         <input asp-for="dateFin" class="form-control  w-25 mx-4" type="date" name="dateFin"
-             value="2021-05-28"
-             >
-  
+               value="2021-05-28">
+
 
         <select asp-for="PhotographeId" class="form-control  w-25">
 
@@ -63,193 +65,193 @@
 
 <table class="table mt-4">
 
-    @if (Model.listeRendezVous!=null)
+    @if (Model.listeRendezVous != null)
     {
 
-    
-    <thead>
 
-        <tr>
+        <thead>
 
-            <th>
+            <tr>
 
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].RendezVousId)
-            </th>
+                <th>
 
-            <th>
-
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].DateRendezVous)
-            </th>
-
-            <th>
-
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].Commentaire)
-            </th>
-
-            <th>
-
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].ProprieteId)
-            </th>
-
-            <th>
-
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].HeureDebut)
-            </th>
-
-            <th>
-
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].Justification)
-            </th>
-
-            <th>
-
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].StatutPhoto)
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].RendezVousId)
                 </th>
-            <th>
 
-                @Html.DisplayNameFor(m => m.listeRendezVous[0].CommentairePhotos)
-            </th>
+                <th>
 
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].DateRendezVous)
+                </th>
 
+                <th>
 
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].Commentaire)
+                </th>
 
-        </tr>
+                <th>
 
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].ProprieteId)
+                </th>
 
-    </thead>
+                <th>
 
-    <tbody>
-        @foreach (var r in Model.listeRendezVous)
-        {
-         
-        <tr>
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].HeureDebut)
+                </th>
 
-            <td>
+                <th>
 
-                @r.RendezVousId.ToString()
-         
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].Justification)
+                </th>
 
+                <th>
 
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].StatutPhoto)
+                </th>
+                <th>
 
-
-            </td>
-            <td>
-                @r.DateRendezVous.ToString()
-            </td>
-            <td>
-                @if (@r.Commentaire == null || @r.Commentaire == "")
-                {
-                    <p>NULL</p>
-                }
-                @r.Commentaire
-            </td>
-            <td>
-                @r.ProprieteId.ToString()
-            </td>
-            <td>
-                @r.HeureDebut.ToString()
-            </td>
-            <td>
-                @if (@r.Justification == null || @r.Justification == "")
-                {
-                    <p>NULL</p>
-                }
-                @r.Justification
-            </td>
-            <td>
-                @if (@r.StatutPhoto == null || @r.StatutPhoto == "")
-                {
-                    <p>NULL</p>
-                }
-                @r.StatutPhoto
-            </td>
-            <td>
-                @if (@r.CommentairePhotos == null || @r.CommentairePhotos == "")
-                {
-                    <p>NULL</p>
-                }
-                @r.CommentairePhotos
-            </td>
-
-          
-            <td>
-                @using (Html.BeginForm("ConfirmerRDV", "RendezVous", new { rdvID = r.RendezVousId }, FormMethod.Post))
-                {
-
-                    <a asp-action="Create">Prendre </a>
-                    <button type="submit">Confirmer </button>}
-                @using (Html.BeginForm("RefuserRDV", "RendezVous", new { rdvID = r.RendezVousId }, FormMethod.Post))
-                {
-                    <button class="mt-2" type="submit">Refuser </button>}
-            </td>
-
-        </tr>
-
-        }
+                    @Html.DisplayNameFor(m => m.listeRendezVous[0].CommentairePhotos)
+                </th>
 
 
-    </tbody>
+
+
+            </tr>
+
+
+        </thead>
+
+        <tbody>
+            @foreach (var r in Model.listeRendezVous)
+            {
+
+                <tr>
+
+                    <td>
+
+                        @r.RendezVousId.ToString()
+
+
+
+
+
+                    </td>
+                    <td>
+                        @r.DateRendezVous.ToString()
+                    </td>
+                    <td>
+                        @if (@r.Commentaire == null || @r.Commentaire == "")
+                        {
+                            <p>NULL</p>
+                        }
+                        @r.Commentaire
+                    </td>
+                    <td>
+                        @r.ProprieteId.ToString()
+                    </td>
+                    <td>
+                        @r.HeureDebut.ToString()
+                    </td>
+                    <td>
+                        @if (@r.Justification == null || @r.Justification == "")
+                        {
+                            <p>NULL</p>
+                        }
+                        @r.Justification
+                    </td>
+                    <td>
+                        @if (@r.StatutPhoto == null || @r.StatutPhoto == "")
+                        {
+                            <p>NULL</p>
+                        }
+                        @r.StatutPhoto
+                    </td>
+                    <td>
+                        @if (@r.CommentairePhotos == null || @r.CommentairePhotos == "")
+                        {
+                            <p>NULL</p>
+                        }
+                        @r.CommentairePhotos
+                    </td>
+
+
+                    <td>
+                        @using (Html.BeginForm("ConfirmerRDV", "RendezVous", new { rdvID = r.RendezVousId }, FormMethod.Post))
+                        {
+
+                            <a asp-action="Create">Prendre </a>
+                            <button type="submit">Confirmer </button>}
+                        @using (Html.BeginForm("RefuserRDV", "RendezVous", new { rdvID = r.RendezVousId }, FormMethod.Post))
+                        {
+                            <button class="mt-2" type="submit">Refuser </button>}
+                    </td>
+
+                </tr>
+
+            }
+
+
+        </tbody>
     }
-    
+
 
 </table>
 @*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateRendezVous)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Commentaire)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HeureDebut)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Justification)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatutPhoto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CommentairePhotos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Propriete)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateRendezVous)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Commentaire)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HeureDebut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Justification)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StatutPhoto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CommentairePhotos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Propriete.Adresse)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RendezVousId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RendezVousId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RendezVousId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateRendezVous)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Commentaire)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HeureDebut)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Justification)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatutPhoto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CommentairePhotos)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Propriete)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateRendezVous)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Commentaire)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HeureDebut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Justification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatutPhoto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommentairePhotos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Propriete.Adresse)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.RendezVousId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.RendezVousId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.RendezVousId">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>*@
