@@ -25,16 +25,16 @@ namespace AppProjetSessionDB.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("server=LLBINFD060302\\SQLEXPRESS;Trusted_Connection=true; Database=H22_4D5_Projet_session");
-//            }
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server=DESKTOP-Q8RJ96P;Trusted_Connection=true; Database=H22_4D5_Projet_session");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "French_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Disponibilite>(entity =>
             {
@@ -68,7 +68,7 @@ namespace AppProjetSessionDB.Models
                 entity.HasOne(d => d.RendezVous)
                     .WithMany(p => p.Disponibilites)
                     .HasForeignKey(d => d.RendezVousId)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_rendezVousID");
             });
 
@@ -90,13 +90,9 @@ namespace AppProjetSessionDB.Models
                 entity.HasOne(d => d.RendezVous)
                     .WithMany(p => p.Photos)
                     .HasForeignKey(d => d.RendezVousId)
-                    .OnDelete(DeleteBehavior.ClientCascade)
                     .HasConstraintName("FK_Photo_rendezVousID");
-
-                
-                
             });
-     
+
             modelBuilder.Entity<Photographe>(entity =>
             {
                 entity.ToTable("Photographes", "Utilisateurs");
@@ -177,7 +173,6 @@ namespace AppProjetSessionDB.Models
 
             OnModelCreatingPartial(modelBuilder);
         }
-
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

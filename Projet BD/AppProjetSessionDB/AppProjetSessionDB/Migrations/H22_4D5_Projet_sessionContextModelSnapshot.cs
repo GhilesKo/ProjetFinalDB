@@ -15,7 +15,7 @@ namespace AppProjetSessionDB.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:Collation", "French_CI_AS")
+                .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -202,7 +202,7 @@ namespace AppProjetSessionDB.Migrations
                         .WithMany("Disponibilites")
                         .HasForeignKey("RendezVousId")
                         .HasConstraintName("FK_rendezVousID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Photographe");
 
@@ -215,6 +215,7 @@ namespace AppProjetSessionDB.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("RendezVousId")
                         .HasConstraintName("FK_Photo_rendezVousID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("RendezVous");

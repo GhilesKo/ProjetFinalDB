@@ -10,16 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppProjetSessionDB.Migrations
 {
     [DbContext(typeof(H22_4D5_Projet_sessionContext))]
-    [Migration("20220502204958_init")]
-    partial class init
+    [Migration("20220525152410_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:Collation", "French_CI_AS")
+                .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("AppProjetSessionDB.Models.Disponibilite", b =>
@@ -204,7 +204,7 @@ namespace AppProjetSessionDB.Migrations
                         .WithMany("Disponibilites")
                         .HasForeignKey("RendezVousId")
                         .HasConstraintName("FK_rendezVousID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Photographe");
 
@@ -217,6 +217,7 @@ namespace AppProjetSessionDB.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("RendezVousId")
                         .HasConstraintName("FK_Photo_rendezVousID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("RendezVous");

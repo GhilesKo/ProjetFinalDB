@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppProjetSessionDB.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -106,7 +106,7 @@ namespace AppProjetSessionDB.Migrations
                         principalSchema: "Disponibilites",
                         principalTable: "RendezVous",
                         principalColumn: "rendezVousID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,7 +128,7 @@ namespace AppProjetSessionDB.Migrations
                         principalSchema: "Disponibilites",
                         principalTable: "RendezVous",
                         principalColumn: "rendezVousID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

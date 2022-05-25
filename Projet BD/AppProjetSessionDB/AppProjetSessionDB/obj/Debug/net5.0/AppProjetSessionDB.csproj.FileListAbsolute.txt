@@ -879,3 +879,4 @@ C:\Users\Riality\Pictures\ProjetFinalDB\Projet BD\AppProjetSessionDB\AppProjetSe
 C:\Users\Riality\Pictures\ProjetFinalDB\Projet BD\AppProjetSessionDB\AppProjetSessionDB\obj\Debug\net5.0\AppProjetSessionDB.pdb
 C:\Users\Riality\Pictures\ProjetFinalDB\Projet BD\AppProjetSessionDB\AppProjetSessionDB\obj\Debug\net5.0\AppProjetSessionDB.genruntimeconfig.cache
 C:\Users\Riality\Pictures\ProjetFinalDB\Projet BD\AppProjetSessionDB\AppProjetSessionDB\obj\Debug\net5.0\staticwebassets\AppProjetSessionDB.StaticWebAssets.xml
+C:\Users\Riality\Pictures\ProjetFinalDB\Projet BD\AppProjetSessionDB\AppProjetSessionDB\obj\Debug\net5.0\AppProjetSessionDB.csprojAssemblyReference.cache

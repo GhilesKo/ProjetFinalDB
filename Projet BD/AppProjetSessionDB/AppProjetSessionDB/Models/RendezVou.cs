@@ -7,8 +7,6 @@ namespace AppProjetSessionDB.Models
 {
     public partial class RendezVou
     {
-
-
         public RendezVou()
         {
             Disponibilites = new HashSet<Disponibilite>();
@@ -27,7 +25,6 @@ namespace AppProjetSessionDB.Models
             CommentairePhotos = commentairePhotos;
         }
 
-
         public int RendezVousId { get; set; }
         public DateTime DateRendezVous { get; set; }
         public string Commentaire { get; set; }
@@ -40,5 +37,9 @@ namespace AppProjetSessionDB.Models
         public virtual Propriete Propriete { get; set; }
         public virtual ICollection<Disponibilite> Disponibilites { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
+
+       
+
+      
     }
 }
